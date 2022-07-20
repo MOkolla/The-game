@@ -51,6 +51,10 @@ def isWordGuessed(secretWord, lettersGuessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE...
+    for char in secretWord:
+        if char not in lettersGuessed:
+            return False
+    return True
 
 
 
@@ -62,6 +66,13 @@ def getGuessedWord(secretWord, lettersGuessed):
       what letters in secretWord have been guessed so far.
     '''
     # FILL IN YOUR CODE HERE...
+    word = ""
+    for char in secretWord:
+        if char in lettersGuessed:
+            word += char
+        else:
+            word+="_"
+    return word
 
 
 
@@ -72,6 +83,13 @@ def getAvailableLetters(lettersGuessed):
       yet been guessed.
     '''
     # FILL IN YOUR CODE HERE...
+    s="abcdefghijklmnopqrstuvwxyz"
+    temp_str = ""
+    for char in s:
+        if char not in lettersGuessed:
+            temp_str += char
+    return temp_str
+
     
 
 def hangman(secretWord):
@@ -95,6 +113,32 @@ def hangman(secretWord):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE...
+    print ("Welcome to the game, Hangman!")
+    print ("I'm thinking of a word that is " + str(len(secretWord)) + " letters long.")
+    lettersGuessed = ''
+    guessesLeft = 8
+    print ("-------------------")
+    while True:
+        print ("You have " + str(guessesLeft) + " guesses left.")
+        print ("Available letters: " + getAvailableLetters(lettersGuessed))
+        word = input("Please guess a letter: ")
+        if word in secretWord and word not in lettersGuessed:
+            lettersGuessed += word
+            print ("Good guess: " + getGuessedWord(secretWord, lettersGuessed))
+        elif word in lettersGuessed:
+            print ("Oops! You've already guessed that letter: " + getGuessedWord(secretWord, lettersGuessed))
+        else:
+            lettersGuessed += word
+            print ("Oops! That letter is not in my word: " + getGuessedWord(secretWord, lettersGuessed))
+            guessesLeft -= 1
+        print ("-----------------")
+        if guessesLeft <= 0:
+            print ("Sorry, You've ran out of guesses. The word was " + secretWord + ".")
+            break
+        if isWordGuessed(secretWord, lettersGuessed):
+            print ("Congratulations! You've won!")
+            break
+
 
 
 
